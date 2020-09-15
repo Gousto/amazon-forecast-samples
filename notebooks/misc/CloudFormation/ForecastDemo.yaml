@@ -24,18 +24,18 @@ Parameters:
     MaxValue: 16384
     ConstraintDescription: Must be an integer between 5 (GB) and 16384 (16 TB).
     Description: Enter the size of the EBS volume in GB.
-  
+
   UseVPC:
     Type: String
     AllowedValues:
       - "true"
       - "false"
-      
+
   SecurityGroup:
     # Use String rather than AWS::EC2::SecurityGroup::Id to allow for empty values
     Type: String
     Description: The security group to provide the notebook access within the VPC
-  
+
   PrivateSubnet:
     # Use String rather than AWS::EC2::Subnet::Id to allow for empty values
     Type: String
@@ -72,7 +72,7 @@ Metadata:
 Conditions:
   ExplicitBucketName: !Not [!Equals [!Ref BucketName, ""]]
   UseOwnVPC: !Equals [!Ref UseVPC, "true"]
-  
+
 Resources:
   # S3 First
   S3Bucket:
@@ -105,9 +105,21 @@ Resources:
       Path: "/"
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
-        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
         - "arn:aws:iam::aws:policy/AmazonForecastFullAccess"
-        - "arn:aws:iam::aws:policy/IAMFullAccess"
+      Policies:
+        - Policy:
+            PolicyName: "ForecastDemoS3"
+            PolicyDocument:
+              Version: "2020-09-15"
+              Statement:
+              - Effect: Allow
+                Action:
+                - s3:*
+                Resource: !Join
+                  - ""
+                  - - "arn:aws:s3:"
+                    - !Ref BucketName
+                    - /*
 
   # Lifecycle configuration to automate some extra notebook setup
   NotebookConfig:
