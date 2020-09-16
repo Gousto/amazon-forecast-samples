@@ -41,7 +41,7 @@ def wait(callback, time_interval = 10):
         time.sleep(time_interval)
 
     status_indicator.end()
-    
+
     return (status=="ACTIVE")
 
 
@@ -100,6 +100,12 @@ def get_or_create_iam_role( role_name ):
     return role_arn
 
 
+def get_iam_role(role_name):
+    iam = boto3.client("iam")
+    role_arn = boto3.resource('iam').Role(role_name).arn
+    return role_arn
+
+
 def delete_iam_role( role_name ):
     iam = boto3.client("iam")
     iam.detach_role_policy( PolicyArn = "arn:aws:iam::aws:policy/AmazonS3FullAccess", RoleName = role_name )
@@ -117,7 +123,7 @@ def plot_forecasts(fcsts, exact, freq = '1H', forecastHorizon=24, time_back = 80
     time_int = exact['timestamp'].apply(lambda x: pd.Timestamp(x))
     plt.plot(time_int[-time_back:],exact['target'].values[-time_back:], color = 'r')
     plt.plot(pred_int, p50['Value'].values, color = 'k')
-    plt.fill_between(p50['Timestamp'].values, 
+    plt.fill_between(p50['Timestamp'].values,
                      p10['Value'].values,
                      p90['Value'].values,
                      color='b', alpha=0.3);
@@ -128,8 +134,8 @@ def plot_forecasts(fcsts, exact, freq = '1H', forecastHorizon=24, time_back = 80
 
 
 def extract_gz( src, dst ):
-    
-    print( f"Extracting {src} to {dst}" )    
+
+    print( f"Extracting {src} to {dst}" )
 
     with open(dst, 'wb') as fd_dst:
         with gzip.GzipFile( src, 'rb') as fd_src:
@@ -137,4 +143,3 @@ def extract_gz( src, dst ):
             fd_dst.write(data)
 
     print("Done.")
-
