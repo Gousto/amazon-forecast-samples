@@ -7,23 +7,23 @@ Parameters:
 
   BucketName:
     Type: String
-    Default: ""
-    Description: The (globally unique) name of the S3 Bucket to create, or blank to set a name automatically.
+    Default: "***REMOVED***"
+    Description: "The (globally unique) name of the S3 Bucket to create, or blank to set a name automatically."
     AllowedPattern: "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$"
-    ConstraintDescription": Can include numbers, letters, and hyphens (-). Must not start or end with a hyphen.
+    ConstraintDescription: "Can include numbers, letters, and hyphens (-). Must not start or end with a hyphen."
 
   NotebookName:
     Type: String
     Default: ForecastDemoLab
-    Description: Enter the name of the SageMaker notebook instance. Deafault is ForecastDemoLab.
+    Description: "Enter the name of the SageMaker notebook instance. Deafault is ForecastDemoLab."
 
   VolumeSize:
     Type: Number
     Default: 10
     MinValue: 5
     MaxValue: 16384
-    ConstraintDescription: Must be an integer between 5 (GB) and 16384 (16 TB).
-    Description: Enter the size of the EBS volume in GB.
+    ConstraintDescription: "Must be an integer between 5 (GB) and 16384 (16 TB)."
+    Description: "Enter the size of the EBS volume in GB."
 
   UseVPC:
     Type: String
@@ -34,12 +34,12 @@ Parameters:
   SecurityGroup:
     # Use String rather than AWS::EC2::SecurityGroup::Id to allow for empty values
     Type: String
-    Description: The security group to provide the notebook access within the VPC
+    Description: "The security group to provide the notebook access within the VPC"
 
   PrivateSubnet:
     # Use String rather than AWS::EC2::Subnet::Id to allow for empty values
     Type: String
-    Description: The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance
+    Description: "The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance"
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -107,19 +107,18 @@ Resources:
         - "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
         - "arn:aws:iam::aws:policy/AmazonForecastFullAccess"
       Policies:
-        - Policy:
-            PolicyName: "ForecastDemoS3"
-            PolicyDocument:
-              Version: "2020-09-15"
-              Statement:
-              - Effect: Allow
-                Action:
-                - s3:*
-                Resource: !Join
-                  - ""
-                  - - "arn:aws:s3:"
-                    - !Ref BucketName
-                    - /*
+        - PolicyName: "ForecastDemoS3"
+          PolicyDocument:
+            Version: "2020-09-15"
+            Statement:
+            - Effect: Allow
+              Action:
+              - s3:*
+              Resource: !Join
+                - ""
+                - - "arn:aws:s3:"
+                  - !Ref BucketName
+                  - /*
 
   # Lifecycle configuration to automate some extra notebook setup
   NotebookConfig:
