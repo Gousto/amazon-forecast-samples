@@ -109,7 +109,7 @@ Resources:
       Policies:
         - PolicyName: "ForecastDemoS3"
           PolicyDocument:
-            Version: "2020-09-15"
+            Version: "2012-10-17"
             Statement:
             - Effect: Allow
               Action:
