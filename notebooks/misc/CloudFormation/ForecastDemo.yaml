@@ -147,7 +147,7 @@ Resources:
       LifecycleConfigName: !GetAtt NotebookConfig.NotebookInstanceLifecycleConfigName
       RoleArn: !GetAtt SageMakerIamRole.Arn
       VolumeSizeInGB: !Ref VolumeSize
-      DefaultCodeRepository: https://github.com/aws-samples/amazon-forecast-samples.git
+      DefaultCodeRepository: https://github.com/Gousto/amazon-forecast-samples.git
       SecurityGroupIds:
         - !If [ UseOwnVPC, !Ref SecurityGroup, !Ref "AWS::NoValue"]
       SubnetId: !If [ UseOwnVPC, !Ref PrivateSubnet, !Ref "AWS::NoValue"]
