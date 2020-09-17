@@ -7,7 +7,7 @@ Parameters:
 
   BucketName:
     Type: String
-    Default: "***REMOVED***"
+    Default: "default-s3-bucket-name"
     Description: "The (globally unique) name of the S3 Bucket to create, or blank to set a name automatically."
     AllowedPattern: "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$"
     ConstraintDescription: "Can include numbers, letters, and hyphens (-). Must not start or end with a hyphen."
