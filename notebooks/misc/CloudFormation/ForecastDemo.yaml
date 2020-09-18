@@ -116,9 +116,22 @@ Resources:
               - s3:*
               Resource: !Join
                 - ""
-                - - "arn:aws:s3:"
+                - - "arn:aws:s3:::"
                   - !Ref BucketName
                   - /*
+        - PolicyName: "ForecastDemoIAM"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+            - Effect: Allow
+              Action:
+              - iam:GetRole
+              - iam:PassRole
+              Resource: !Join
+                - ":"
+                - - "arn:aws:iam:"
+                  - !Ref "AWS::AccountId"
+                  - "role/*-SageMakerIamRole-*"
 
   # Lifecycle configuration to automate some extra notebook setup
   NotebookConfig:
