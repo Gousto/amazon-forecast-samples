@@ -100,7 +100,9 @@ Resources:
           -
             Effect: Allow
             Principal:
-              Service: sagemaker.amazonaws.com
+              Service:
+                - sagemaker.amazonaws.com
+                - forecast.amazonaws.com
             Action: sts:AssumeRole
       Path: "/"
       ManagedPolicyArns:
